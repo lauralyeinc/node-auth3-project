@@ -12,7 +12,9 @@ router.get('/', (req, res) =>{
         })
         .catch(error => {
             console.log(error);
-            res.send(error);
+            res.status(401).json({ 
+                message: ' You shall not pass! 🙌🏻'
+            })
         });
 });
 
