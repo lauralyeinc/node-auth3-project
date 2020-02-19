@@ -23,8 +23,14 @@ function findById(id) {
 
 
 //  authRouther.js  post /login filtering to find single user
+// function findBy(filter) {
+//     return db('users').where(filter); 
+// }
+
 function findBy(filter) {
-    return db('users').where(filter); 
+    return db('users')
+        .select('id', 'username', 'password')
+        .where(filter);
 }
 
 module.exports = {
