@@ -25,14 +25,29 @@ router.post('/register', (req, res) => {
 
 //
 router.post('/login', (req, res) => {
-    let { username, passowrd } = req.body;
+    let { username, password } = req.body;
 
     Users.findBy({username})
         .first()
         .then(user => {
-            if (user && bcrypt.compareSync(password, user.password))
+            if (user && bcrypt.compareSync(password, user.password)) {
+                req.session.user = user; 
+
+                res.status(200).json({
+                    message: ` Welcome 👋🏻  ${user.username}! `, 
+                });
+            } else {
+                res.status(401).json({ message: ' You Shall not pass! 🙅‍♀️'});
+            }
         })
-})
+        .catch(error => {
+            console.log("error", error);
+            res.status(500).json({
+                message: 'You shall not enter ✌🏻',
+                error: 'error'
+            });
+        });
+});
 
 
 module.exports = router; 
