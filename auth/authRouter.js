@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');  // for the hash of the PW 
 
+const jwt = require('jsonwebtoken');
+const secret = require('../config/secrets.js');
+
 const Users = require('../users/usersModel.js');
 
 // /api/auth 
@@ -39,8 +42,11 @@ router.post('/login', (req, res) => {
             if (user && bcrypt.compareSync(password, user.password)) {
                 console.log(user); 
 
+                const token = generateToken(user); 
+
                 res.status(200).json({
-                    message: ` Welcome 👋🏻  ${user.username}! `, 
+                    message: ` Welcome 👋🏻  ${user.username}! `,
+                    token: token, 
                 });
             } else {
                 res.status(401).json({ message: ' You Shall not pass! 🙅‍♀️'});
@@ -57,7 +63,7 @@ router.post('/login', (req, res) => {
 // // √√√   end?? 
 router.post('/logout', (req, res) => {
     if (req.session) {
-        req.session.destory(error => {
+        req.session.destroy(error => {
             if (error) {
                 res.send(' Can checkout any time but you cannot leave.')
             } else {
@@ -68,6 +74,22 @@ router.post('/logout', (req, res) => {
         res.end();
     }
 }); 
+
+
+function generateToken(user) {
+    const payload = {
+        subject: user.id,
+        username: user.username,
+    };
+
+    const options = {
+        expiresIn:  "1d",
+    }
+
+    const token = jwt.sign(payload, secret.jwtSecret, options);
+
+    return token; 
+}
 
 
 

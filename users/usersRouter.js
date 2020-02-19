@@ -1,11 +1,14 @@
 const router = require('express').Router();
 
 const Users = require('./usersModel.js'); // helper 
-const restricted = require('../auth/restrictedMW.js');  // middleware
+const restricted = require('../auth/restrictedMW.js');  
+    // middleware without token 
+const restrictedToken = require('../auth/restrictedToken.js'); 
 
 // /api/users
-// getting allusers.  // w/out MW  √√√     //  /w MW √√√√
-router.get('/', (req, res) => {
+// getting allusers.  
+        // w/out MW  √√√     //  /w restrcited NO!   // /w restrictedToken  
+router.get('/', restrictedToken, (req, res) => {
     Users.find()
         .then(allUsers => {
             res.json(allUsers);
