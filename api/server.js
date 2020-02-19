@@ -4,6 +4,8 @@ const express = require('express');
 const authRouter = require('../auth/authRouter.js');
 const usersRouter = require('../users/usersRouter.js');
 
+const jwt = require('jsonwebtoken'); 
+
 const server = express();
 
 server.use(express.json());
@@ -18,22 +20,23 @@ server.get('/', (req,res) => {
 });
 
 
-// server.get('/token', (req, res) => {
-//     const payload = {
-//         subject: 'testuser',
-//         userid: 'tester',
-//         favoriteColor: 'purple'
-//     };
+// √√√√   test token 
+server.get('/token', (req, res) => {
+    const payload = {
+        subject: 'testuser',
+        userid: 'tester',
+        favoriteColor: 'purple'
+    };
 
-//     const secret = "victoria's";
+    const secret = "victoria's";
 
-//     const option = {
-//         expiresIn: '8h'
-//     };
+    const options = {
+        expiresIn: '8h'
+    };
 
-//     const token = jwt.sign(payload, secret, options);
+    const token = jwt.sign(payload, secret, options);
 
-//     res.json(token); 
-// }); 
+    res.json(token); 
+}); 
 
 module.exports = server; 

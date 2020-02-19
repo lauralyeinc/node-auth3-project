@@ -38,7 +38,6 @@ router.post('/login', (req, res) => {
         .then(user => {
             if (user && bcrypt.compareSync(password, user.password)) {
                 console.log(user); 
-                // req.session.user = user; 
 
                 res.status(200).json({
                     message: ` Welcome 👋🏻  ${user.username}! `, 
@@ -55,7 +54,7 @@ router.post('/login', (req, res) => {
         });
 });
 
-// √√√ 
+// // √√√   end?? 
 router.post('/logout', (req, res) => {
     if (req.session) {
         req.session.destory(error => {
@@ -69,6 +68,7 @@ router.post('/logout', (req, res) => {
         res.end();
     }
 }); 
+
 
 
 module.exports = router; 
