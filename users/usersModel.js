@@ -3,7 +3,7 @@ const db = require('../data/dbConfig.js');
 
 // get all users  usersRouter.js
 function find() {
-    return db('users').select('id', 'username');
+    return db('users').select('id', 'username', 'password');
 }
 
 //  add a new user authRouther.js

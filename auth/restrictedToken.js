@@ -8,13 +8,14 @@ module.exports = (req, res, next) => {
     if(token) {
         jwt.verify(token, secret.jwtSecret, (error, decodedToken) => {
             if (error) {
-                res.status(401).json({ message: ' Shall Not Pass 🙅‍♀️'})
+                res.status(401).json({ message: ' Bad Token 🙅‍♀️'})
             } else {
-                req.decodedJwt = decodedToken; 
+                req.username = decodedToken.username; 
+                // req.decodedJwt = decodedToken; 
                 next();
             }
         })
     } else {
-        res.status(401).json({ message: ' You shall not Enter 🙅‍♀️ !'});
+        res.status(401).json({ message: ' No token provided 🙅‍♀️ !'});
     }
 };
