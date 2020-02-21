@@ -34,7 +34,7 @@ router.post('/register', (req, res) => {
 
 // √√√ 
 router.post('/login', (req, res) => {
-    let { username, password } = req.body;
+    let { username, password } = req.body;  //postman raw JSON 
 
     Users.findBy({ username })
         .first()
@@ -42,7 +42,7 @@ router.post('/login', (req, res) => {
             if (user && bcrypt.compareSync(password, user.password)) {
                 console.log(user); 
 
-                const token = generateToken(user); 
+                const token = generateToken(user); // middleware made a new token for a user logging in. After the token expires or they log out, it makes a new token. 
 
                 res.status(200).json({
                     message: ` Welcome 👋🏻  ${user.username}! `,
@@ -60,7 +60,7 @@ router.post('/login', (req, res) => {
         });
 });
 
-// // √√√   end?? 
+// // √√√   end??   using sessions to end the session of logged in..
 router.post('/logout', (req, res) => {
     if (req.session) {
         req.session.destroy(error => {
@@ -86,6 +86,7 @@ function generateToken(user) {
         expiresIn:  "1d",
     }
 
+    // secret is send someone else and is set up in .gitgnore so it isn't sent to github(etc). Don't normally your secrets to be shared with the world. 😘
     const token = jwt.sign(payload, secret.jwtSecret, options);
 
     return token; 

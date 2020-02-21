@@ -7,7 +7,7 @@ const restrictedToken = require('../auth/restrictedToken.js');
 
 // /api/users
 // getting allusers.  
-        // w/out MW  √√√     //  /w restrcited NO!   // /w restrictedToken  
+        // w/out MW  √√√       // /w restrictedToken  √√√ 
 router.get('/', restrictedToken, (req, res) => {
     Users.find()
         .then(allUsers => {
